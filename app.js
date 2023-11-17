@@ -1,12 +1,12 @@
-import express from "express";
+const express = require("express");
 
-import expressLayouts from "express-ejs-layouts";
-import dotenv from "dotenv";
+require("dotenv").config();
 
-const app = express();
-dotenv.config();
+const expressLayouts = require("express-ejs-layouts");
 
 const port = process.env.PORT || 3000;
+
+const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -19,13 +19,7 @@ app.use(expressLayouts);
 app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
 
-app.get("/", function (req, res) {
-  const locals = {
-    title: "Notes app",
-    description: "Free notes app",
-  };
-  res.render("index", locals);
-});
+app.use("/", require("./server/routes/index"));
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
