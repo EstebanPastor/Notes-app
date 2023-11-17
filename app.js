@@ -20,6 +20,8 @@ app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
 
 app.use("/", require("./server/routes/index"));
+app.use("/", require("./server/routes/dashboard"));
+
 
 // Handle 404
 app.get("*", function(req, res) {
