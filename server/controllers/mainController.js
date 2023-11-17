@@ -3,7 +3,10 @@ exports.homepage = async (req, res) => {
     title: "Node app",
     description: "A simple note app",
   };
-  res.render("index", locals);
+  res.render("index", {
+    locals,
+    layout: "../views/layouts/front-page.ejs"
+  });
 };
 
 exports.about = async (req, res) => {
