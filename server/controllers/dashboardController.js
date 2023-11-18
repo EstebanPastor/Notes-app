@@ -43,6 +43,47 @@ exports.dashboard = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    next(error); 
+    next(error);
+  }
+};
+
+exports.dashboardViewNote = async (req, res) => {
+  const note = await Note.findById({ _id: req.params.id })
+    .where({ user: req.user.id })
+    .lean();
+
+  if (note) {
+    res.render("dashboard/view-note.ejs", {
+      noteID: req.params.id,
+      note,
+      layout: "../views/layouts/dashboard",
+    });
+  } else {
+    res.send("Something went wrong");
+  }
+};
+
+exports.dashboardUpdateNote = async (req, res) => {
+  try {
+    const updateNote = await Note.findOneAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      { title: req.body.title, body: req.body.body }
+    ).where({ user: req.user.id });
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.dashboardDeleteNote = async (req, res) => {
+  try {
+    const deleteNote = await Note.deleteOne({
+      _id: req.params.id,
+    }).where({ user: req.user.id });
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.log(error);
   }
 };

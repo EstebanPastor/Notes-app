@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const methodOverride = require("method-override")
 const passport = require("passport");
 const MongoStore = require("connect-mongo");
 
@@ -29,6 +30,7 @@ app.use(passport.session());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride("_method"));
 
 connectDB();
 
