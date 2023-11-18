@@ -14,7 +14,7 @@ exports.dashboard = async (req, res, next) => {
     const notes = await Note.aggregate([
       {
         $sort: {
-          createdAt: -1,
+          updatedAt: -1,
         },
       },
       {
@@ -69,7 +69,7 @@ exports.dashboardUpdateNote = async (req, res) => {
       {
         _id: req.params.id,
       },
-      { title: req.body.title, body: req.body.body }
+      { title: req.body.title, body: req.body.body, updatedAt: Date.now() }
     ).where({ user: req.user.id });
     res.redirect("/dashboard");
   } catch (error) {
